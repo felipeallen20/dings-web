@@ -5,6 +5,25 @@ export interface MenuCategory {
   name: string;
 }
 
+export type ProductOptionGroupType = "single" | "multiple";
+
+export interface ProductOption {
+  id: string;
+  name: string;
+  priceDelta: number;
+}
+
+export interface ProductOptionGroup {
+  id: string;
+  name: string;
+  hint?: string;
+  type: ProductOptionGroupType;
+  required?: boolean;
+  min?: number;
+  max?: number;
+  options: ProductOption[];
+}
+
 export interface Product {
   id: string;
   name: string;
@@ -13,6 +32,7 @@ export interface Product {
   originalPrice?: number;
   image: StaticImageData;
   menuCategoryId: string;
+  modifierGroups?: ProductOptionGroup[];
 }
 
 export interface RestaurantMenu {

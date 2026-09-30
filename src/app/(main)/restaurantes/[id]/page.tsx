@@ -72,6 +72,7 @@ export default async function RestaurantDetailPage({
         <MenuSections
           categories={menu.categories}
           products={menu.products}
+          restaurant={{ id: restaurant.id, name: restaurant.name }}
         />
       </div>
     </main>

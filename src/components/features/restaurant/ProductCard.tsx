@@ -1,6 +1,9 @@
 import Image from "next/image";
 import type { MenuCategory, Product } from "@/types/menu";
-import { AddToCartButton } from "@/components/features/restaurant/AddToCartButton";
+import type { CartRestaurantRef } from "@/types/cart";
+import { ProductActions } from "@/components/features/product/ProductActions";
+
+export type { CartRestaurantRef };
 
 const priceFormatter = new Intl.NumberFormat("es-CO", {
   style: "currency",
@@ -11,9 +14,14 @@ const priceFormatter = new Intl.NumberFormat("es-CO", {
 interface ProductCardProps {
   product: Product;
   category: MenuCategory;
+  restaurant: CartRestaurantRef;
 }
 
-export function ProductCard({ product, category }: ProductCardProps) {
+export function ProductCard({
+  product,
+  category,
+  restaurant,
+}: ProductCardProps) {
   return (
     <article className="group flex h-full flex-col overflow-hidden rounded-xl border border-border bg-surface transition-colors hover:border-border-strong hover:shadow-hover">
       <div className="relative block aspect-4/3 w-full overflow-hidden">
@@ -53,7 +61,7 @@ export function ProductCard({ product, category }: ProductCardProps) {
             )}
           </div>
 
-          <AddToCartButton productName={product.name} />
+          <ProductActions product={product} restaurant={restaurant} />
         </div>
       </div>
     </article>

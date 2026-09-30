@@ -1,12 +1,18 @@
 import type { MenuCategory, Product } from "@/types/menu";
+import type { CartRestaurantRef } from "@/types/cart";
 import { ProductCard } from "@/components/features/restaurant/ProductCard";
 
 interface MenuSectionsProps {
   categories: MenuCategory[];
   products: Product[];
+  restaurant: CartRestaurantRef;
 }
 
-export function MenuSections({ categories, products }: MenuSectionsProps) {
+export function MenuSections({
+  categories,
+  products,
+  restaurant,
+}: MenuSectionsProps) {
   return (
     <div className="flex flex-col gap-margin">
       {categories.map((category) => {
@@ -31,7 +37,11 @@ export function MenuSections({ categories, products }: MenuSectionsProps) {
             <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
               {categoryProducts.map((product) => (
                 <li key={product.id} className="h-full">
-                  <ProductCard product={product} category={category} />
+                  <ProductCard
+                    product={product}
+                    category={category}
+                    restaurant={restaurant}
+                  />
                 </li>
               ))}
             </ul>

@@ -2,6 +2,7 @@ import type { StaticImageData } from "next/image";
 import type { MenuCategory, Product, RestaurantMenu } from "@/types/menu";
 import type { Restaurant } from "@/types/restaurant";
 import { getCategories } from "@/services/categories";
+import { getModifierGroupsFor } from "@/services/product-modifiers";
 import cafeImg from "@/assets/images/categories/cafe-panaderia.webp";
 
 interface DishTemplate {
@@ -135,6 +136,12 @@ function buildProduct(
   image: StaticImageData,
   originalPrice?: number,
 ): Product {
+  const modifierGroups = getModifierGroupsFor(
+    restaurant.categoryId,
+    dish.name,
+    menuCategoryId,
+  );
+
   return {
     id: `${restaurant.id}-${menuCategoryId}-${index}`,
     name: dish.name,
@@ -143,6 +150,7 @@ function buildProduct(
     originalPrice,
     image,
     menuCategoryId,
+    ...(modifierGroups ? { modifierGroups } : {}),
   };
 }
 

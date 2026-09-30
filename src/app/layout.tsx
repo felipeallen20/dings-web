@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Geist_Mono, Plus_Jakarta_Sans } from "next/font/google";
 import { SessionProvider } from "@/components/providers/SessionProvider";
+import { CartProvider } from "@/components/providers/CartProvider";
+import { CartToast } from "@/components/features/cart/CartToast";
 import "./globals.css";
 
 const plusJakartaSans = Plus_Jakarta_Sans({
@@ -26,7 +28,12 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${plusJakartaSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body suppressHydrationWarning className="min-h-full flex flex-col">
-        <SessionProvider>{children}</SessionProvider>
+        <SessionProvider>
+          <CartProvider>
+            {children}
+            <CartToast />
+          </CartProvider>
+        </SessionProvider>
       </body>
     </html>
   );
