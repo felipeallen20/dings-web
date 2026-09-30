@@ -3,39 +3,13 @@
 import { useRef } from "react";
 import Image from "next/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import type { Category } from "@/types/category";
-import hamburguesasImg from "@/assets/images/categories/hamburguesas.jpg";
-import pizzaImg from "@/assets/images/categories/pizza.jpg";
-import sushiImg from "@/assets/images/categories/sushi.jpg";
-import tacosImg from "@/assets/images/categories/tacos.jpg";
-import asiaticaImg from "@/assets/images/categories/comida-asiatica.jpg";
-import ensaladaImg from "@/assets/images/categories/ensalada.jpg";
-import sandwichImg from "@/assets/images/categories/sandwich.jpg";
-import pastaImg from "@/assets/images/categories/pasta.jpg";
-import parrillaImg from "@/assets/images/categories/parrilla.jpg";
-import caseraImg from "@/assets/images/categories/comida-casera.jpg";
-import postresImg from "@/assets/images/categories/postres.jpg";
-import cafeImg from "@/assets/images/categories/cafe-panaderia.webp";
-
-const CATEGORIES: Category[] = [
-  { id: "hamburguesas", name: "Hamburguesas", image: hamburguesasImg },
-  { id: "pizza", name: "Pizza", image: pizzaImg },
-  { id: "sushi", name: "Sushi", image: sushiImg },
-  { id: "mexicana", name: "Comida mexicana", image: tacosImg },
-  { id: "asiatica", name: "Comida asiática", image: asiaticaImg },
-  { id: "ensaladas", name: "Ensaladas", image: ensaladaImg },
-  { id: "sandwiches", name: "Sándwiches", image: sandwichImg },
-  { id: "pastas", name: "Pastas", image: pastaImg },
-  { id: "parrilla", name: "Parrilla", image: parrillaImg },
-  { id: "casera", name: "Comida casera", image: caseraImg },
-  { id: "postres", name: "Postres", image: postresImg },
-  { id: "cafe", name: "Café y panadería", image: cafeImg },
-];
+import { getCategories } from "@/services/categories";
 
 const EDGE_TOLERANCE = 4;
 
 export function CategoriesSection() {
   const trackRef = useRef<HTMLUListElement>(null);
+  const categories = getCategories();
 
   const handlePrev = () => {
     const track = trackRef.current;
@@ -98,7 +72,7 @@ export function CategoriesSection() {
         ref={trackRef}
         className="no-scrollbar flex snap-x snap-mandatory gap-2 overflow-x-auto pb-2"
       >
-        {CATEGORIES.map((category) => (
+        {categories.map((category) => (
           <li
             key={category.id}
             className="w-[calc((100%-0.5rem)/2)] shrink-0 snap-start sm:w-[calc((100%-1rem)/3)] lg:w-[calc((100%-2.75rem)/6.5)]"

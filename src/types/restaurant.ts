@@ -1,5 +1,7 @@
 import type { StaticImageData } from "next/image";
 
+export type DeliveryOption = "propio" | "recogida";
+
 export interface Restaurant {
   id: string;
   name: string;
@@ -10,4 +12,10 @@ export interface Restaurant {
   shippingPrice: number;
   minOrder?: number;
   express?: boolean;
+  categoryId: string;
+  zoneId: string;
+  distanceKm: number;
+  etaMinutes: number;
+  deliveryOptions: DeliveryOption[];
+  isOpen: boolean;
 }
