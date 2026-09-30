@@ -46,6 +46,7 @@ const RESTAURANTS: Restaurant[] = [
     etaMinutes: 25,
     deliveryOptions: BOTH_MODES,
     isOpen: true,
+    isVerified: true,
   },
   {
     id: "burger-lab-72",
@@ -77,6 +78,7 @@ const RESTAURANTS: Restaurant[] = [
     etaMinutes: 28,
     deliveryOptions: BOTH_MODES,
     isOpen: true,
+    isVerified: true,
   },
   {
     id: "fugazzeta-del-barrio",
@@ -109,6 +111,7 @@ const RESTAURANTS: Restaurant[] = [
     etaMinutes: 45,
     deliveryOptions: PROPIO,
     isOpen: true,
+    isVerified: true,
   },
   {
     id: "sushi-koi",
@@ -172,6 +175,7 @@ const RESTAURANTS: Restaurant[] = [
     etaMinutes: 35,
     deliveryOptions: BOTH_MODES,
     isOpen: true,
+    isVerified: true,
   },
   {
     id: "wok-and-roll",
@@ -188,6 +192,7 @@ const RESTAURANTS: Restaurant[] = [
     etaMinutes: 30,
     deliveryOptions: BOTH_MODES,
     isOpen: true,
+    isVerified: true,
   },
   {
     id: "ensalada-viva",
@@ -300,6 +305,7 @@ const RESTAURANTS: Restaurant[] = [
     etaMinutes: 45,
     deliveryOptions: BOTH_MODES,
     isOpen: true,
+    isVerified: true,
   },
   {
     id: "la-parrillita-69",
@@ -348,6 +354,7 @@ const RESTAURANTS: Restaurant[] = [
     etaMinutes: 28,
     deliveryOptions: BOTH_MODES,
     isOpen: true,
+    isVerified: true,
   },
   {
     id: "postre-el-ingenio",
@@ -394,6 +401,7 @@ const RESTAURANTS: Restaurant[] = [
     etaMinutes: 20,
     deliveryOptions: PROPIO,
     isOpen: true,
+    isVerified: true,
   },
   {
     id: "pan-y-cafe-la-esquina",
@@ -462,6 +470,16 @@ function matchesFilters(
 
 export function getZones(): Zone[] {
   return ZONES;
+}
+
+export async function getRestaurantById(
+  id: string,
+): Promise<Restaurant | null> {
+  return RESTAURANTS.find((restaurant) => restaurant.id === id) ?? null;
+}
+
+export async function getRestaurantIds(): Promise<string[]> {
+  return RESTAURANTS.map((restaurant) => restaurant.id);
 }
 
 export async function getRestaurants(

@@ -18,4 +18,5 @@ export interface Restaurant {
   etaMinutes: number;
   deliveryOptions: DeliveryOption[];
   isOpen: boolean;
+  isVerified?: boolean;
 }
