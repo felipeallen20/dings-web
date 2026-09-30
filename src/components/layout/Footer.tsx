@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ShieldCheck } from "lucide-react";
+import { Logo } from "@/components/ui/Logo";
 
 const LINK_GROUPS = [
   {
@@ -40,9 +41,7 @@ export function Footer() {
       <div className="mx-auto flex w-full max-w-[1280px] flex-col gap-10 px-4 py-10 md:px-6 lg:py-12">
         <div className="grid gap-10 lg:grid-cols-[1.6fr_1fr_1fr_1fr]">
           <div className="space-y-4">
-            <Link href="/" className="text-title-md text-primary">
-              Dings
-            </Link>
+            <Logo className="max-h-12" />
             <p className="max-w-xs text-body-sm text-text-secondary">
               La plataforma donde los restaurantes de tu barrio publican su menú
               y tú lo pides sin salir de casa.

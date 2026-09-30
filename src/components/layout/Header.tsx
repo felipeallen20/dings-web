@@ -5,6 +5,7 @@ import { ShoppingCart } from "lucide-react";
 import { LocationSelect } from "@/components/layout/LocationSelect";
 import { SearchBar } from "@/components/layout/SearchBar";
 import { UserMenu } from "@/components/layout/UserMenu";
+import { Logo } from "@/components/ui/Logo";
 
 const NAV_LINKS = [
   { label: "Explorar", href: "/explorar" },
@@ -26,12 +27,7 @@ export default function Header({
   return (
     <header className="sticky top-0 z-40 h-[75px] w-full border-b border-border bg-surface">
       <div className="mx-auto flex h-full w-full max-w-[1280px] items-center gap-4 px-4 md:px-6">
-        <Link
-          href="/"
-          className="shrink-0 text-title-md text-primary"
-        >
-          Dings
-        </Link>
+        <Logo className="max-h-9 sm:max-h-10" priority />
 
         <div className="hidden md:block">
           <LocationSelect />
