@@ -2,6 +2,7 @@
 
 import { useRef } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { getCategories } from "@/services/categories";
 
@@ -77,8 +78,8 @@ export function CategoriesSection() {
             key={category.id}
             className="w-[calc((100%-0.5rem)/2)] shrink-0 snap-start sm:w-[calc((100%-1rem)/3)] lg:w-[calc((100%-2.75rem)/6.5)]"
           >
-            <a
-              href={`/explorar?categoria=${category.id}`}
+            <Link
+              href={`/restaurantes?categoria=${category.id}`}
               className="group flex flex-col overflow-hidden rounded-xl border border-border bg-surface transition-colors hover:border-border-strong hover:shadow-hover"
             >
               <span className="relative block aspect-4/3 w-full">
@@ -93,7 +94,7 @@ export function CategoriesSection() {
               <span className="px-3 py-2.5 text-center text-label-lg text-neutral">
                 {category.name}
               </span>
-            </a>
+            </Link>
           </li>
         ))}
       </ul>
