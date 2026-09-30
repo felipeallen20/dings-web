@@ -6,6 +6,7 @@ import { LocationSelect } from "@/components/layout/LocationSelect";
 import { SearchBar } from "@/components/layout/SearchBar";
 import { UserMenu } from "@/components/layout/UserMenu";
 import { Logo } from "@/components/ui/Logo";
+import { useSession } from "@/components/providers/SessionProvider";
 
 const NAV_LINKS = [
   { label: "Explorar", href: "/explorar" },
@@ -14,16 +15,12 @@ const NAV_LINKS = [
 ];
 
 interface HeaderProps {
-  isLoggedIn?: boolean;
-  hasProfileImage?: boolean;
   cartCount?: number;
 }
 
-export default function Header({
-  isLoggedIn = false,
-  hasProfileImage = true,
-  cartCount = 3,
-}: HeaderProps) {
+export default function Header({ cartCount = 3 }: HeaderProps) {
+  const { session, isLoading } = useSession();
+
   return (
     <header className="sticky top-0 z-40 h-[75px] w-full border-b border-border bg-surface">
       <div className="mx-auto flex h-full w-full max-w-[1280px] items-center gap-4 px-4 md:px-6">
@@ -63,7 +60,10 @@ export default function Header({
             )}
           </Link>
 
-          <UserMenu isLoggedIn={isLoggedIn} hasProfileImage={hasProfileImage} />
+          <UserMenu
+            isLoggedIn={!isLoading && session !== null}
+            displayName={session?.name}
+          />
         </div>
       </div>
     </header>

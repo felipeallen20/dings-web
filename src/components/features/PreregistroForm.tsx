@@ -1,10 +1,17 @@
 "use client";
 
-import { useState, type FormEvent, type ReactNode } from "react";
+import { useState, type FormEvent } from "react";
 import Link from "next/link";
 import { ChevronDown, CircleCheck } from "lucide-react";
 import { submitRestaurantInterest } from "@/services/restaurantInterest";
 import type { DeliveryMode, RestaurantInterest } from "@/types/restaurant-interest";
+import { Field, TextField } from "@/components/ui/TextField";
+import { PrimaryButton } from "@/components/ui/PrimaryButton";
+import {
+  checkboxClass,
+  inputClass,
+  optionalLabelClass,
+} from "@/components/ui/formStyles";
 
 const CUISINES = [
   "Hamburguesas",
@@ -28,34 +35,8 @@ const DELIVERY_OPTIONS: { value: DeliveryMode; label: string }[] = [
   { value: "por-definir", label: "Aún no lo tengo definido" },
 ];
 
-const inputClass =
-  "h-12 w-full rounded-lg border border-border bg-surface px-4 text-body-sm text-neutral transition-colors placeholder:text-placeholder focus:border-primary focus:ring-2 focus:ring-primary/15 focus:outline-none";
-
 const pillClass =
   "inline-flex h-9 items-center rounded-full border border-border bg-surface px-4 text-label-lg text-text-secondary transition-colors hover:border-border-strong hover:bg-canvas-muted peer-checked:border-primary peer-checked:bg-primary peer-checked:text-white peer-focus-visible:ring-2 peer-focus-visible:ring-primary peer-focus-visible:ring-offset-2";
-
-type FieldProps = {
-  id: string;
-  label: string;
-  optional?: boolean;
-  children: ReactNode;
-};
-
-function Field({ id, label, optional, children }: FieldProps) {
-  return (
-    <div className="space-y-2">
-      <label htmlFor={id} className="block text-label-lg text-neutral">
-        {label}
-        {optional && (
-          <span className="ml-1.5 text-body-sm font-normal text-placeholder">
-            (opcional)
-          </span>
-        )}
-      </label>
-      {children}
-    </div>
-  );
-}
 
 type Status = "idle" | "submitting" | "done";
 
@@ -68,8 +49,7 @@ export function PreregistroForm() {
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const form = event.currentTarget;
-    const data = new FormData(form);
+    const data = new FormData(event.currentTarget);
 
     const payload: RestaurantInterest = {
       restaurantName: String(data.get("restaurantName") ?? "").trim(),
@@ -110,9 +90,7 @@ export function PreregistroForm() {
         <span className="flex size-12 items-center justify-center rounded-full bg-canvas-muted text-tertiary-strong">
           <CircleCheck className="size-6" aria-hidden />
         </span>
-        <h2 className="text-headline-md text-neutral">
-          Preregistro recibido
-        </h2>
+        <h2 className="text-headline-md text-neutral">Preregistro recibido</h2>
         <p className="max-w-md text-body-md text-text-secondary">
           Gracias por registrar{" "}
           <span className="font-semibold text-neutral">
@@ -122,13 +100,12 @@ export function PreregistroForm() {
           <span className="font-semibold text-neutral">{confirmation.email}</span>{" "}
           para confirmar los datos y agendar la carga de tu menú.
         </p>
-        <button
-          type="button"
+        <PrimaryButton
+          className="mt-2 border border-border bg-surface text-neutral hover:bg-canvas-muted"
           onClick={() => setStatus("idle")}
-          className="mt-2 inline-flex h-12 items-center rounded-lg border border-border bg-surface px-6 text-label-lg text-neutral transition-colors hover:bg-canvas-muted hover:border-border-strong focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:outline-none"
         >
           Registrar otro restaurante
-        </button>
+        </PrimaryButton>
       </div>
     );
   }
@@ -139,54 +116,44 @@ export function PreregistroForm() {
       className="mx-auto w-full max-w-3xl rounded-xl border border-border bg-surface p-6 sm:p-8"
     >
       <div className="grid gap-5 sm:grid-cols-2">
-        <Field id="restaurantName" label="Nombre del restaurante">
-          <input
-            id="restaurantName"
-            name="restaurantName"
-            type="text"
-            required
-            autoComplete="organization"
-            placeholder="Ej. Donde Pepe"
-            className={inputClass}
-          />
-        </Field>
+        <TextField
+          id="restaurantName"
+          label="Nombre del restaurante"
+          name="restaurantName"
+          required
+          autoComplete="organization"
+          placeholder="Ej. Donde Pepe"
+        />
 
-        <Field id="contactName" label="Persona de contacto">
-          <input
-            id="contactName"
-            name="contactName"
-            type="text"
-            required
-            autoComplete="name"
-            placeholder="Ej. Mariana López"
-            className={inputClass}
-          />
-        </Field>
+        <TextField
+          id="contactName"
+          label="Persona de contacto"
+          name="contactName"
+          required
+          autoComplete="name"
+          placeholder="Ej. Mariana López"
+        />
 
-        <Field id="email" label="Correo electrónico">
-          <input
-            id="email"
-            name="email"
-            type="email"
-            required
-            autoComplete="email"
-            placeholder="hola@restaurante.com"
-            className={inputClass}
-          />
-        </Field>
+        <TextField
+          id="email"
+          label="Correo electrónico"
+          name="email"
+          type="email"
+          required
+          autoComplete="email"
+          placeholder="hola@restaurante.com"
+        />
 
-        <Field id="phone" label="Teléfono o WhatsApp">
-          <input
-            id="phone"
-            name="phone"
-            type="tel"
-            required
-            autoComplete="tel"
-            inputMode="tel"
-            placeholder="Ej. 300 123 4567"
-            className={inputClass}
-          />
-        </Field>
+        <TextField
+          id="phone"
+          label="Teléfono o WhatsApp"
+          name="phone"
+          type="tel"
+          required
+          autoComplete="tel"
+          inputMode="tel"
+          placeholder="Ej. 300 123 4567"
+        />
 
         <Field id="cuisine" label="Tipo de cocina">
           <div className="relative">
@@ -213,29 +180,24 @@ export function PreregistroForm() {
           </div>
         </Field>
 
-        <Field id="city" label="Ciudad o zona donde operas">
-          <input
-            id="city"
-            name="city"
-            type="text"
-            required
-            autoComplete="address-level2"
-            placeholder="Ej. Chapinero, Bogotá"
-            className={inputClass}
-          />
-        </Field>
+        <TextField
+          id="city"
+          label="Ciudad o zona donde operas"
+          name="city"
+          required
+          autoComplete="address-level2"
+          placeholder="Ej. Chapinero, Bogotá"
+        />
 
-        <Field id="dishesCount" label="Platillos en el menú" optional>
-          <input
-            id="dishesCount"
-            name="dishesCount"
-            type="number"
-            min={1}
-            inputMode="numeric"
-            placeholder="Ej. 25"
-            className={inputClass}
-          />
-        </Field>
+        <TextField
+          id="dishesCount"
+          label="Platillos en el menú"
+          name="dishesCount"
+          type="number"
+          inputMode="numeric"
+          optional
+          placeholder="Ej. 25"
+        />
       </div>
 
       <fieldset className="mt-6 space-y-2">
@@ -265,9 +227,7 @@ export function PreregistroForm() {
       <div className="mt-6 space-y-2">
         <label htmlFor="message" className="block text-label-lg text-neutral">
           ¿Algo que debamos saber?
-          <span className="ml-1.5 text-body-sm font-normal text-placeholder">
-            (opcional)
-          </span>
+          <span className={optionalLabelClass}>(opcional)</span>
         </label>
         <textarea
           id="message"
@@ -279,12 +239,7 @@ export function PreregistroForm() {
       </div>
 
       <label className="mt-6 flex items-start gap-3">
-        <input
-          type="checkbox"
-          name="consent"
-          required
-          className="mt-0.5 size-5 shrink-0 rounded-[6px] border-[1.5px] border-border-strong accent-primary"
-        />
+        <input type="checkbox" name="consent" required className={checkboxClass} />
         <span className="text-body-sm text-text-secondary">
           Acepto el{" "}
           <Link
@@ -308,13 +263,12 @@ export function PreregistroForm() {
         <p className="text-body-sm text-text-secondary">
           El preregistro no tiene costo ni compromiso.
         </p>
-        <button
+        <PrimaryButton
           type="submit"
           disabled={status === "submitting"}
-          className="inline-flex h-12 shrink-0 items-center justify-center rounded-lg bg-primary px-6 text-label-lg text-white transition-colors hover:bg-primary-hover focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-60"
         >
           {status === "submitting" ? "Enviando…" : "Enviar preregistro"}
-        </button>
+        </PrimaryButton>
       </div>
     </form>
   );
