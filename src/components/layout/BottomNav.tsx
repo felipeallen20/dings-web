@@ -17,7 +17,7 @@ const NAV_ITEMS: NavItem[] = [
   { id: "explorar", label: "Explorar", icon: Compass, href: "/explorar" },
   { id: "buscar", label: "Buscar", icon: Search },
   { id: "pedidos", label: "Pedidos", icon: Receipt },
-  { id: "perfil", label: "Perfil", icon: User },
+  { id: "perfil", label: "Perfil", icon: User, href: "/perfil" },
 ];
 
 function itemClassName(isActive: boolean) {
@@ -33,6 +33,7 @@ export function BottomNav() {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
 
   const isExploreActive = pathname.startsWith("/explorar");
+  const isProfileActive = pathname.startsWith("/perfil");
 
   return (
     <nav
@@ -60,7 +61,11 @@ export function BottomNav() {
       <ul className="flex items-stretch">
         {NAV_ITEMS.map(({ id, label, icon: Icon, href }) => {
           const isActive =
-            id === "explorar" ? isExploreActive : id === "buscar" && isSearchOpen;
+            id === "explorar"
+              ? isExploreActive
+              : id === "perfil"
+                ? isProfileActive
+                : id === "buscar" && isSearchOpen;
 
           if (id === "buscar") {
             return (

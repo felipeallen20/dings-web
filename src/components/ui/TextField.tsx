@@ -5,10 +5,11 @@ interface FieldProps {
   id: string;
   label: string;
   optional?: boolean;
+  error?: string;
   children: ReactNode;
 }
 
-export function Field({ id, label, optional, children }: FieldProps) {
+export function Field({ id, label, optional, error, children }: FieldProps) {
   return (
     <div className="space-y-2">
       <label htmlFor={id} className="block text-label-lg text-neutral">
@@ -18,6 +19,11 @@ export function Field({ id, label, optional, children }: FieldProps) {
         )}
       </label>
       {children}
+      {error && (
+        <p role="alert" className="text-body-sm text-text-secondary">
+          {error}
+        </p>
+      )}
     </div>
   );
 }
@@ -34,6 +40,11 @@ interface TextFieldProps {
   inputMode?: "text" | "email" | "tel" | "numeric";
   maxLength?: number;
   defaultValue?: string;
+  value?: string;
+  onChange?: (value: string) => void;
+  error?: string;
+  hint?: string;
+  disabled?: boolean;
   className?: string;
   children?: ReactNode;
 }
@@ -50,11 +61,16 @@ export function TextField({
   inputMode,
   maxLength,
   defaultValue,
+  value,
+  onChange,
+  error,
+  hint,
+  disabled,
   className,
   children,
 }: TextFieldProps) {
   return (
-    <Field id={id} label={label} optional={optional}>
+    <Field id={id} label={label} optional={optional} error={error}>
       <input
         id={id}
         name={name}
@@ -64,9 +80,24 @@ export function TextField({
         autoComplete={autoComplete}
         inputMode={inputMode}
         maxLength={maxLength}
-        defaultValue={defaultValue}
-        className={className ? `${inputClass} ${className}` : inputClass}
+        disabled={disabled}
+        {...(value === undefined ? { defaultValue } : { value })}
+        onChange={
+          onChange ? (event) => onChange(event.target.value) : undefined
+        }
+        aria-invalid={error ? true : undefined}
+        aria-describedby={hint || error ? `${id}-hint` : undefined}
+        className={
+          className
+            ? `${inputClass} ${className}`
+            : `${inputClass} ${error ? "border-border-strong" : ""}`
+        }
       />
+      {hint && (
+        <p id={`${id}-hint`} className="text-body-sm text-placeholder">
+          {hint}
+        </p>
+      )}
       {children}
     </Field>
   );
