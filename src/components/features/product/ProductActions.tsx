@@ -41,14 +41,18 @@ export function ProductActions({
   }
 
   return (
-    <div className="flex items-center gap-2">
+    <div className="flex items-center gap-1.5 sm:gap-2">
       {justAdded && (
         <button
           type="button"
           onClick={openDrawer}
-          className="inline-flex h-8 items-center gap-1 rounded-lg bg-tertiary/10 px-2 text-label-md text-tertiary-strong transition-colors hover:bg-tertiary/20"
+          className="inline-flex h-7 items-center gap-1 rounded-lg bg-tertiary/10 px-1.5 text-caption text-tertiary-strong transition-colors hover:bg-tertiary/20 sm:h-8 sm:gap-1.5 sm:px-2.5 sm:text-label-md"
         >
-          <Check className="size-3.5 shrink-0" strokeWidth={2.5} aria-hidden />
+          <Check
+            className="size-3 shrink-0 sm:size-3.5"
+            strokeWidth={2.5}
+            aria-hidden
+          />
           Ver carrito
         </button>
       )}
@@ -63,10 +67,14 @@ export function ProductActions({
             ? `Configurar y agregar ${product.name}`
             : `Añadir ${product.name} al carrito`
         }
-        className="inline-flex h-8 shrink-0 items-center gap-1.5 rounded-lg bg-primary px-2.5 text-label-md text-white transition-colors hover:bg-primary-hover focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:outline-none active:bg-primary-active"
+        className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-primary text-white transition-colors hover:bg-primary-hover focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:outline-none active:bg-primary-active sm:h-8 sm:w-auto sm:gap-1.5 sm:px-2.5 sm:text-label-md"
       >
-        <Plus className="size-3.5 shrink-0" strokeWidth={2.5} aria-hidden />
-        Agregar
+        <Plus
+          className="size-3 shrink-0 sm:size-3.5"
+          strokeWidth={2.5}
+          aria-hidden
+        />
+        <span className="hidden sm:inline">Agregar</span>
       </button>
 
       {needsConfiguration && (

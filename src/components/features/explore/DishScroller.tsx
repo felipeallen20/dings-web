@@ -36,13 +36,15 @@ export function DishScroller({
       <div className="flex items-end justify-between gap-6">
         <div className="space-y-2">
           {eyebrow && (
-            <p className="text-label-sm text-primary uppercase">{eyebrow}</p>
+            <p className="text-label-xs text-primary uppercase">{eyebrow}</p>
           )}
-          <h2 className="text-headline-md text-neutral lg:text-headline-lg">
+          <h2 className="text-title-sm text-neutral sm:text-headline-md">
             {title}
           </h2>
           {subtitle && (
-            <p className="text-body-md text-text-secondary">{subtitle}</p>
+            <p className="text-caption text-text-secondary sm:text-body-md">
+              {subtitle}
+            </p>
           )}
         </div>
 
@@ -68,12 +70,12 @@ export function DishScroller({
 
       <ul
         ref={trackRef}
-        className="no-scrollbar -mx-4 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-2 md:mx-0 md:px-0"
+        className="no-scrollbar flex snap-x snap-mandatory gap-3 overflow-x-auto pb-2"
       >
         {dishes.map((dish) => (
           <li
             key={dish.id}
-            className="w-[260px] shrink-0 snap-start sm:w-[280px]"
+            className="w-[calc((100%-0.75rem)/2)] shrink-0 snap-start sm:w-[280px] lg:w-[300px]"
           >
             <DishCard dish={dish} />
           </li>

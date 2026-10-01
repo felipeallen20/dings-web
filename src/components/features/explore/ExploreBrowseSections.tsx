@@ -12,8 +12,8 @@ export function ExploreCategoriesSection({
   return (
     <section className="flex flex-col gap-6">
       <div className="space-y-2">
-        <p className="text-label-sm text-primary uppercase">Categorías</p>
-        <h2 className="text-headline-md text-neutral lg:text-headline-lg">
+        <p className="text-label-xs text-primary uppercase">Categorías</p>
+        <h2 className="text-title-sm text-neutral sm:text-headline-md">
           Explora por tipo de cocina
         </h2>
       </div>
@@ -34,11 +34,11 @@ export function ExploreCategoriesSection({
                   className="object-cover transition-transform duration-300 group-hover:scale-105"
                 />
               </div>
-              <div className="flex flex-col gap-0.5 px-3 py-2.5">
-                <span className="text-label-lg text-neutral">
+              <div className="flex flex-col gap-0.5 px-2.5 py-2 sm:px-3 sm:py-2.5">
+                <span className="line-clamp-2 text-caption text-neutral sm:text-label-lg">
                   {category.name}
                 </span>
-                <span className="text-label-sm text-text-secondary">
+                <span className="text-label-xs text-text-secondary sm:text-label-sm">
                   {category.restaurantCount}{" "}
                   {category.restaurantCount === 1
                     ? "restaurante"
@@ -59,8 +59,8 @@ export function ExploreZonesSection({ zones }: { zones: ExploreZone[] }) {
   return (
     <section className="flex flex-col gap-5">
       <div className="space-y-2">
-        <p className="text-label-sm text-primary uppercase">Barrios y zonas</p>
-        <h2 className="text-headline-md text-neutral lg:text-headline-lg">
+        <p className="text-label-xs text-primary uppercase">Barrios y zonas</p>
+        <h2 className="text-title-sm text-neutral sm:text-headline-md">
           Cerca de donde estás
         </h2>
       </div>
@@ -70,10 +70,10 @@ export function ExploreZonesSection({ zones }: { zones: ExploreZone[] }) {
           <li key={zone.id}>
             <Link
               href={`/restaurantes?zona=${zone.id}`}
-              className="inline-flex items-center gap-2 rounded-full border border-border bg-surface px-3.5 py-2 text-label-lg text-neutral transition-colors hover:border-border-strong hover:bg-canvas-muted"
+              className="inline-flex items-center gap-1.5 rounded-full border border-border bg-surface px-3 py-1.5 text-caption text-neutral transition-colors hover:border-border-strong hover:bg-canvas-muted sm:gap-2 sm:px-3.5 sm:py-2 sm:text-label-lg"
             >
               {zone.name}
-              <span className="rounded-full bg-canvas-muted px-1.5 py-0.5 text-label-sm text-text-secondary">
+              <span className="rounded-full bg-canvas-muted px-1.5 py-0.5 text-label-xs text-text-secondary sm:text-label-sm">
                 {zone.restaurantCount}
               </span>
             </Link>

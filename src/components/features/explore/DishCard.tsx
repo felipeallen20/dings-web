@@ -20,48 +20,53 @@ export function DishCard({ dish }: { dish: ExploreDish }) {
           src={product.image}
           alt={product.name}
           fill
-          sizes="260px"
+          sizes="(min-width: 1024px) 300px, (min-width: 640px) 280px, 50vw"
           className="object-cover transition-transform duration-300 group-hover:scale-105"
         />
 
         {product.originalPrice !== undefined && (
-          <span className="absolute top-2.5 left-2.5 rounded-full bg-secondary px-2.5 py-1 text-label-sm text-white">
+          <span className="absolute top-1.5 left-1.5 rounded-full bg-secondary px-1.5 py-0.5 text-label-xs text-white sm:top-2.5 sm:left-2.5 sm:px-2.5 sm:py-1 sm:text-label-sm">
             Oferta
           </span>
         )}
 
-        <span className="absolute top-2.5 right-2.5 flex items-center gap-1 rounded-full bg-surface/90 px-2 py-1 text-label-sm text-neutral backdrop-blur-sm tabular-nums">
-          <Clock className="size-3 shrink-0 text-text-secondary" aria-hidden />
+        <span className="absolute top-1.5 right-1.5 flex items-center gap-0.5 rounded-full bg-surface/90 px-1.5 py-0.5 text-label-xs text-neutral tabular-nums backdrop-blur-sm sm:top-2.5 sm:right-2.5 sm:gap-1 sm:px-2 sm:py-1 sm:text-label-sm">
+          <Clock
+            className="size-2.5 shrink-0 text-text-secondary sm:size-3"
+            aria-hidden
+          />
           {dish.etaMinutes} min
         </span>
       </div>
 
-      <div className="flex flex-1 flex-col gap-2 p-3.5">
+      <div className="flex flex-1 flex-col gap-1 p-2 sm:gap-2 sm:p-3.5">
         <Link
           href={`/restaurantes/${dish.restaurantId}`}
-          className="flex items-center gap-1.5 text-label-sm text-text-secondary transition-colors hover:text-primary"
+          className="flex items-center gap-1 text-label-xs text-text-secondary transition-colors hover:text-primary sm:gap-1.5 sm:text-label-sm"
         >
           <Star
-            className="size-3 shrink-0 fill-secondary text-secondary"
+            className="size-2.5 shrink-0 fill-secondary text-secondary sm:size-3"
             aria-hidden
           />
           <span className="truncate">{dish.restaurantName}</span>
           <span className="shrink-0 tabular-nums">{dish.rating.toFixed(1)}</span>
         </Link>
 
-        <h3 className="text-label-lg text-neutral">{product.name}</h3>
+        <h3 className="line-clamp-2 text-title-xs text-neutral sm:text-label-lg">
+          {product.name}
+        </h3>
 
-        <p className="line-clamp-2 text-body-sm text-text-secondary">
+        <p className="line-clamp-2 text-caption text-text-secondary sm:text-body-sm">
           {product.description}
         </p>
 
-        <div className="mt-auto flex items-center justify-between gap-2 pt-1">
-          <div className="flex flex-wrap items-baseline gap-2">
-            <span className="text-title-md text-neutral tabular-nums">
+        <div className="mt-auto flex items-center justify-between gap-1 pt-1 sm:gap-2">
+          <div className="flex flex-wrap items-baseline gap-1.5 sm:gap-2">
+            <span className="text-title-xs text-neutral tabular-nums sm:text-title-md">
               {priceFormatter.format(product.price)}
             </span>
             {product.originalPrice !== undefined && (
-              <span className="text-label-md text-text-secondary line-through tabular-nums">
+              <span className="text-caption text-text-secondary line-through tabular-nums sm:text-label-md">
                 {priceFormatter.format(product.originalPrice)}
               </span>
             )}
