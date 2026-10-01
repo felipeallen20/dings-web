@@ -1,44 +1,172 @@
+"use client";
+
+import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
-import banner from "@/assets/images/banner.jpg";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import banner1 from "@/assets/images/banners/banner1.webp";
+import banner2 from "@/assets/images/banners/banner2.webp";
+import banner3 from "@/assets/images/banners/banner3.webp";
+
+const AUTOSLIDE_MS = 8000;
+const SWIPE_THRESHOLD_PX = 40;
+
+/**
+ * Fuentes originales: 2048px (banner1/banner3) y 3168px (banner2), con la
+ * misma proporción 33:14. Como el contenedor tope en 1232px, todas entran por
+ * reduccion y no hace falta capear el ancho.
+ */
+const BANNER_SIZES =
+  "(min-width: 1280px) 1232px, (min-width: 768px) calc(100vw - 48px), calc(100vw - 32px)";
+
+const SLIDES = [
+  {
+    id: "banner1",
+    src: banner1,
+    alt: "Descubre qué hay para hoy en Dings",
+    href: "/explorar",
+  },
+  {
+    id: "banner2",
+    src: banner2,
+    alt: "Encuentra restaurantes cerca de ti",
+    href: "/restaurantes",
+  },
+  { id: "banner3", src: banner3, alt: "Novedades de Dings", href: null },
+];
+
+const arrowClass =
+  "pointer-events-auto flex size-9 items-center justify-center rounded-full border border-border bg-surface/85 text-neutral opacity-0 backdrop-blur-sm transition-opacity duration-200 group-hover:opacity-100 focus-visible:opacity-100 hover:bg-surface focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:outline-none motion-reduce:transition-none lg:size-10";
 
 export function Banner() {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [isHovering, setIsHovering] = useState(false);
+  const [isTabHidden, setIsTabHidden] = useState(false);
+
+  const swipeStartX = useRef<number | null>(null);
+  const didSwipe = useRef(false);
+
+  const goNext = useCallback(() => {
+    setActiveIndex((current) => (current + 1) % SLIDES.length);
+  }, []);
+
+  const goPrev = useCallback(() => {
+    setActiveIndex((current) => (current - 1 + SLIDES.length) % SLIDES.length);
+  }, []);
+
+  useEffect(() => {
+    const handleVisibilityChange = () => setIsTabHidden(document.hidden);
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+    return () =>
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+  }, []);
+
+  useEffect(() => {
+    if (isHovering || isTabHidden) return;
+
+    const current = activeIndex;
+    const timeout = window.setTimeout(() => {
+      setActiveIndex((current + 1) % SLIDES.length);
+    }, AUTOSLIDE_MS);
+
+    return () => window.clearTimeout(timeout);
+  }, [activeIndex, isHovering, isTabHidden]);
+
+  function handlePointerDown(event: React.PointerEvent<HTMLElement>) {
+    swipeStartX.current = event.clientX;
+    didSwipe.current = false;
+  }
+
+  function handlePointerUp(event: React.PointerEvent<HTMLElement>) {
+    if (swipeStartX.current === null) return;
+
+    const delta = event.clientX - swipeStartX.current;
+    swipeStartX.current = null;
+
+    if (Math.abs(delta) < SWIPE_THRESHOLD_PX) return;
+
+    didSwipe.current = true;
+    if (delta < 0) {
+      goNext();
+    } else {
+      goPrev();
+    }
+  }
+
   return (
-    <section className="relative isolate aspect-[33/14] w-full overflow-hidden rounded-xl bg-surface">
-      <Image
-        src={banner}
-        alt="Platillos de restaurantes locales"
-        fill
-        priority
-        sizes="(min-width: 1280px) 1232px, 100vw"
-        className="-z-10 object-cover"
-      />
+    <section
+      className="group relative isolate aspect-[33/14] w-full touch-pan-y overflow-hidden rounded-xl bg-surface"
+      onMouseEnter={() => setIsHovering(true)}
+      onMouseLeave={() => setIsHovering(false)}
+      onFocus={() => setIsHovering(true)}
+      onBlur={() => setIsHovering(false)}
+      onPointerDown={handlePointerDown}
+      onPointerUp={handlePointerUp}
+      aria-roledescription="carrusel"
+      aria-label="Promociones destacadas"
+    >
+      {SLIDES.map((slide, index) => {
+        const isActive = index === activeIndex;
+        const slideState = isActive
+          ? "opacity-100"
+          : "pointer-events-none opacity-0";
 
-      <div
-        aria-hidden
-        className="absolute inset-0 -z-10 bg-linear-to-t from-neutral/90 via-neutral/55 to-neutral/5 lg:bg-linear-to-r lg:from-neutral/85 lg:via-neutral/60 lg:to-transparent"
-      />
+        const content = (
+          <Image
+            src={slide.src}
+            alt={slide.alt}
+            fill
+            priority={index === 0}
+            sizes={BANNER_SIZES}
+            className="object-cover"
+          />
+        );
 
-      <div className="flex h-full flex-col justify-end gap-2 p-4 sm:justify-center sm:gap-3 sm:p-8 lg:gap-4 lg:p-16">
-        <div className="max-w-xl space-y-1 sm:space-y-2 lg:space-y-3">
-          <h2 className="text-title-sm text-white sm:text-headline-lg lg:text-display-sm">
-            Sabores de tu barrio
-          </h2>
-          <p className="text-caption text-white/80 sm:text-body-lg">
-            Cocina de autor y panadería de barrio, directo a tu mesa.
-          </p>
-        </div>
-
-        <div className="pt-0.5 lg:pt-2">
+        return slide.href ? (
           <Link
-            href="/restaurantes"
-            className="inline-flex h-8 items-center gap-1 rounded-lg bg-primary px-3.5 text-label-sm text-white transition-colors hover:bg-primary-hover focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:outline-none sm:h-12 sm:gap-2 sm:px-6 sm:text-label-lg"
+            key={slide.id}
+            href={slide.href}
+            tabIndex={isActive ? 0 : -1}
+            aria-hidden={!isActive}
+            onClick={(event) => {
+              if (didSwipe.current) {
+                event.preventDefault();
+                didSwipe.current = false;
+              }
+            }}
+            className={`absolute inset-0 transition-opacity duration-500 motion-reduce:transition-none ${slideState}`}
           >
-            Explorar restaurantes
-            <ArrowRight className="size-3 shrink-0 sm:size-4" aria-hidden />
+            {content}
           </Link>
-        </div>
+        ) : (
+          <div
+            key={slide.id}
+            aria-hidden={!isActive}
+            className={`absolute inset-0 transition-opacity duration-500 motion-reduce:transition-none ${slideState}`}
+          >
+            {content}
+          </div>
+        );
+      })}
+
+      <div className="pointer-events-none absolute inset-0 hidden items-center justify-between p-3 md:flex">
+        <button
+          type="button"
+          onClick={goPrev}
+          aria-label="Banner anterior"
+          className={`${arrowClass} -translate-x-1 group-hover:translate-x-0 focus-visible:translate-x-0 motion-reduce:transform-none`}
+        >
+          <ChevronLeft className="size-4 lg:size-5" aria-hidden />
+        </button>
+
+        <button
+          type="button"
+          onClick={goNext}
+          aria-label="Banner siguiente"
+          className={`${arrowClass} translate-x-1 group-hover:translate-x-0 focus-visible:translate-x-0 motion-reduce:transform-none`}
+        >
+          <ChevronRight className="size-4 lg:size-5" aria-hidden />
+        </button>
       </div>
     </section>
   );
