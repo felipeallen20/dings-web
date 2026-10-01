@@ -117,9 +117,9 @@ const BEVERAGES: DishTemplate[] = [
   { name: "Jugo de mango", description: "Mango natural, 400ml.", price: 7500 },
 ];
 
-const OFFERS_CATEGORY: MenuCategory = { id: "ofertas", name: "Ofertas" };
-const POPULAR_CATEGORY: MenuCategory = { id: "mas-pedidos", name: "Más pedidos" };
-const DRINKS_CATEGORY: MenuCategory = { id: "bebidas", name: "Bebidas" };
+export const OFFERS_CATEGORY: MenuCategory = { id: "ofertas", name: "Ofertas" };
+export const POPULAR_CATEGORY: MenuCategory = { id: "mas-pedidos", name: "Más pedidos" };
+export const DRINKS_CATEGORY: MenuCategory = { id: "bebidas", name: "Bebidas" };
 
 const OFFER_DISCOUNT = 0.75;
 const PRICE_ROUNDING = 500;
