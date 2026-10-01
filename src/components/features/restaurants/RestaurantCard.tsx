@@ -49,7 +49,7 @@ export function RestaurantCard({ restaurant }: { restaurant: Restaurant }) {
 
       <div className="flex flex-1 flex-col gap-3 p-4">
         <div className="flex items-start justify-between gap-3">
-          <h3 className="text-title-md text-neutral">{restaurant.name}</h3>
+          <h3 className="text-title-xs text-neutral sm:text-title-md">{restaurant.name}</h3>
           <span className="flex shrink-0 items-center gap-1 rounded-full bg-canvas-muted px-2.5 py-1">
             <Star
               className="size-3.5 fill-secondary text-secondary"
@@ -64,7 +64,7 @@ export function RestaurantCard({ restaurant }: { restaurant: Restaurant }) {
           </span>
         </div>
 
-        <p className="text-body-sm text-text-secondary">
+        <p className="text-caption text-text-secondary sm:text-body-sm">
           {restaurant.description}
         </p>
 

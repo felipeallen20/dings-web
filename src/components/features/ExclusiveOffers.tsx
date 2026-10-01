@@ -45,7 +45,7 @@ export function ExclusiveOffers() {
   return (
     <section
       aria-labelledby="exclusive-offers-title"
-      className="flex flex-col gap-6 rounded-xl bg-canvas-muted p-6 sm:p-8"
+      className="flex flex-col gap-6 rounded-xl bg-canvas-muted p-3 sm:p-8"
     >
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div className="flex items-center gap-4">
@@ -58,18 +58,18 @@ export function ExclusiveOffers() {
           <div className="space-y-1">
             <h2
               id="exclusive-offers-title"
-              className="text-title-md text-neutral sm:text-headline-md"
+              className="text-title-sm text-neutral sm:text-headline-md"
             >
               Ofertas exclusivas de hoy
             </h2>
-            <p className="text-body-sm text-text-secondary">
+            <p className="text-caption text-text-secondary sm:text-body-sm">
               Descuentos directos en platillos insignia de restaurantes
               seleccionados
             </p>
           </div>
         </div>
 
-        <span className="rounded-full bg-secondary/15 px-4 py-2 text-label-sm text-secondary uppercase">
+        <span className="rounded-full bg-secondary/15 px-4 py-2 text-caption text-secondary uppercase sm:text-label-sm">
           Terminan hoy 11:59 PM
         </span>
       </div>
@@ -92,17 +92,17 @@ export function ExclusiveOffers() {
               </div>
 
               <div className="min-w-0 space-y-1">
-                <p className="truncate text-label-md text-text-secondary">
+                <p className="truncate text-caption text-text-secondary sm:text-label-md">
                   {offer.restaurant}
                 </p>
-                <h3 className="line-clamp-2 text-body-lg font-semibold text-neutral">
+                <h3 className="line-clamp-2 text-title-xs text-neutral sm:text-body-lg sm:font-semibold">
                   {offer.dish}
                 </h3>
                 <p className="flex flex-wrap items-baseline gap-2">
-                  <span className="text-title-md tabular-nums text-secondary">
+                  <span className="text-title-xs text-secondary tabular-nums sm:text-title-md">
                     {priceFormatter.format(offer.price)}
                   </span>
-                  <span className="text-label-md tabular-nums text-text-secondary line-through">
+                  <span className="text-caption text-text-secondary tabular-nums line-through sm:text-label-md">
                     {priceFormatter.format(offer.originalPrice)}
                   </span>
                 </p>

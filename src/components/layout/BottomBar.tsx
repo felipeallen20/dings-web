@@ -2,7 +2,7 @@ import { Flame, Store, Timer } from "lucide-react";
 
 export function BottomBar() {
   return (
-    <div className="w-full border-b border-border bg-canvas-muted">
+    <div className="hidden w-full border-b border-border bg-canvas-muted md:block">
       <div className="mx-auto flex h-10 w-full max-w-[1280px] items-center justify-between gap-4 px-4 md:px-6">
         <p className="flex min-w-0 items-center gap-2 text-body-sm font-semibold text-neutral">
           <Flame className="size-4 shrink-0 text-secondary" aria-hidden />

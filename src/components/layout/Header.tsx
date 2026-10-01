@@ -1,11 +1,13 @@
 "use client";
 
+import { useCallback, useRef, useState } from "react";
 import Link from "next/link";
-import { ShoppingCart } from "lucide-react";
+import { Menu, ShoppingCart, User } from "lucide-react";
 import { LocationSelect } from "@/components/layout/LocationSelect";
 import { SearchBar } from "@/components/layout/SearchBar";
 import { UserMenu } from "@/components/layout/UserMenu";
 import { Logo } from "@/components/ui/Logo";
+import { useClickOutside } from "@/hooks/useClickOutside";
 import { useSession } from "@/components/providers/SessionProvider";
 import { useCart } from "@/components/providers/CartProvider";
 import { CartDrawer } from "@/components/features/cart/CartDrawer";
@@ -16,14 +18,43 @@ const NAV_LINKS = [
   { label: "Registrar Restaurante", href: "/registrar-restaurante" },
 ];
 
-export default function Header() {
-  const { session, isLoading } = useSession();
+const ICON_BUTTON =
+  "flex size-10 shrink-0 items-center justify-center rounded-full text-neutral transition-colors hover:bg-canvas-muted hover:text-primary focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:outline-none";
+
+function CartButton() {
   const { totalItems, openDrawer } = useCart();
 
   return (
+    <button
+      type="button"
+      onClick={openDrawer}
+      aria-label={`Abrir carrito, ${totalItems} ${
+        totalItems === 1 ? "producto" : "productos"
+      }`}
+      className={`relative ${ICON_BUTTON}`}
+    >
+      <ShoppingCart className="size-5" aria-hidden />
+      {totalItems > 0 && (
+        <span className="absolute -right-0.5 -top-0.5 flex min-w-4 items-center justify-center rounded-full bg-primary px-1 text-[10px] leading-4 font-semibold text-white tabular-nums">
+          {totalItems}
+        </span>
+      )}
+    </button>
+  );
+}
+
+export default function Header() {
+  const { session, isLoading } = useSession();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
+
+  const closeMenu = useCallback(() => setIsMenuOpen(false), []);
+  useClickOutside(menuRef, closeMenu, isMenuOpen);
+
+  return (
     <>
-      <header className="sticky top-0 z-40 h-[75px] w-full border-b border-border bg-surface">
-        <div className="mx-auto flex h-full w-full max-w-[1280px] items-center gap-4 px-4 md:px-6">
+      <header className="sticky top-0 z-40 h-16 w-full border-b border-border bg-surface md:h-[75px]">
+        <div className="mx-auto flex h-full w-full max-w-[1280px] items-center gap-2 px-4 md:gap-4 md:px-6">
           <Logo className="max-h-9 sm:max-h-10" priority />
 
           <div className="hidden md:block">
@@ -46,27 +77,57 @@ export default function Header() {
             ))}
           </nav>
 
-          <div className="ml-auto flex items-center gap-4 lg:ml-0 lg:gap-6">
-            <UserMenu
-              isLoggedIn={!isLoading && session !== null}
-              displayName={session?.name}
-            />
+          <div
+            ref={menuRef}
+            className="relative ml-auto flex items-center gap-1 md:ml-0 md:gap-4 lg:ml-0 lg:gap-6"
+          >
+            <Link
+              href="/iniciar-sesion"
+              aria-label="Iniciar sesión"
+              className={`${ICON_BUTTON} md:hidden`}
+            >
+              <User className="size-5" aria-hidden />
+            </Link>
+
+            <div className="hidden md:block">
+              <UserMenu
+                isLoggedIn={!isLoading && session !== null}
+                displayName={session?.name}
+              />
+            </div>
+
+            <CartButton />
 
             <button
               type="button"
-              onClick={openDrawer}
-              aria-label={`Abrir carrito, ${totalItems} ${
-                totalItems === 1 ? "producto" : "productos"
-              }`}
-              className="relative shrink-0 text-neutral transition-colors hover:text-primary focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:outline-none"
+              onClick={() => setIsMenuOpen((open) => !open)}
+              aria-haspopup="menu"
+              aria-expanded={isMenuOpen}
+              aria-label="Abrir menú de navegación"
+              className={`${ICON_BUTTON} md:hidden`}
             >
-              <ShoppingCart className="size-5" aria-hidden />
-              {totalItems > 0 && (
-                <span className="absolute -right-2 -top-2 flex min-w-4 items-center justify-center rounded-full bg-primary px-1 text-[10px] leading-4 font-semibold tabular-nums text-white">
-                  {totalItems}
-                </span>
-              )}
+              <Menu className="size-5" aria-hidden />
             </button>
+
+            {isMenuOpen && (
+              <div
+                role="menu"
+                aria-label="Navegación"
+                className="absolute right-0 top-full z-50 mt-2 w-60 overflow-hidden rounded-xl border border-border bg-surface p-2 shadow-float md:hidden"
+              >
+                {NAV_LINKS.map(({ label, href }) => (
+                  <Link
+                    key={href}
+                    href={href}
+                    role="menuitem"
+                    onClick={closeMenu}
+                    className="flex min-h-12 items-center rounded-lg px-3 text-body-md text-neutral transition-colors hover:bg-canvas-muted"
+                  >
+                    {label}
+                  </Link>
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </header>
