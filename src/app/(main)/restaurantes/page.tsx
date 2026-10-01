@@ -26,7 +26,7 @@ export default async function RestaurantesPage({
   return (
     <main className="w-full px-4 py-6 md:px-6 lg:py-8">
       <div className="mx-auto flex w-full max-w-[1280px] flex-col gap-margin-mobile lg:gap-margin">
-        <h1 className="text-title-md text-neutral lg:text-headline-sm">
+        <h1 className="text-title-sm text-neutral lg:text-headline-sm">
           Restaurantes cerca de ti
         </h1>
 
@@ -40,6 +40,7 @@ export default async function RestaurantesPage({
         <RestaurantsResults
           restaurants={restaurants}
           categories={categories}
+          filters={filters}
         />
       </div>
     </main>
