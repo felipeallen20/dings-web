@@ -1,0 +1,2 @@
+export const iconButtonClass =
+  "flex size-10 shrink-0 items-center justify-center rounded-full text-neutral transition-colors hover:bg-canvas-muted hover:text-primary focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:outline-none";

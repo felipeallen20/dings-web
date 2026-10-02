@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist_Mono, Plus_Jakarta_Sans } from "next/font/google";
 import { SessionProvider } from "@/components/providers/SessionProvider";
 import { CartProvider } from "@/components/providers/CartProvider";
+import { NotificationProvider } from "@/components/providers/NotificationProvider";
 import { CartToast } from "@/components/features/cart/CartToast";
 import "./globals.css";
 
@@ -30,8 +31,10 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <body suppressHydrationWarning className="min-h-full flex flex-col">
         <SessionProvider>
           <CartProvider>
-            {children}
-            <CartToast />
+            <NotificationProvider>
+              {children}
+              <CartToast />
+            </NotificationProvider>
           </CartProvider>
         </SessionProvider>
       </body>

@@ -16,7 +16,7 @@ interface NavItem {
 const NAV_ITEMS: NavItem[] = [
   { id: "explorar", label: "Explorar", icon: Compass, href: "/explorar" },
   { id: "buscar", label: "Buscar", icon: Search },
-  { id: "pedidos", label: "Pedidos", icon: Receipt },
+  { id: "pedidos", label: "Pedidos", icon: Receipt, href: "/pedidos" },
   { id: "perfil", label: "Perfil", icon: User, href: "/perfil" },
 ];
 
@@ -32,8 +32,9 @@ export function BottomNav() {
   const pathname = usePathname();
   const [isSearchOpen, setIsSearchOpen] = useState(false);
 
-  const isExploreActive = pathname.startsWith("/explorar");
-  const isProfileActive = pathname.startsWith("/perfil");
+const isExploreActive = pathname.startsWith("/explorar");
+const isOrdersActive = pathname.startsWith("/pedidos");
+const isProfileActive = pathname.startsWith("/perfil");
 
   return (
     <nav
@@ -63,9 +64,11 @@ export function BottomNav() {
           const isActive =
             id === "explorar"
               ? isExploreActive
-              : id === "perfil"
-                ? isProfileActive
-                : id === "buscar" && isSearchOpen;
+              : id === "pedidos"
+                ? isOrdersActive
+                : id === "perfil"
+                  ? isProfileActive
+                  : id === "buscar" && isSearchOpen;
 
           if (id === "buscar") {
             return (

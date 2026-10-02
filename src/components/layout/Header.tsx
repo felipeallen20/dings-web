@@ -7,19 +7,18 @@ import { LocationSelect } from "@/components/layout/LocationSelect";
 import { SearchBar } from "@/components/layout/SearchBar";
 import { UserMenu } from "@/components/layout/UserMenu";
 import { Logo } from "@/components/ui/Logo";
+import { iconButtonClass } from "@/components/ui/iconButton";
 import { useClickOutside } from "@/hooks/useClickOutside";
 import { useSession } from "@/components/providers/SessionProvider";
 import { useCart } from "@/components/providers/CartProvider";
 import { CartDrawer } from "@/components/features/cart/CartDrawer";
+import { NotificationsBell } from "@/components/features/notifications/NotificationsBell";
 
 const NAV_LINKS = [
   { label: "Explorar", href: "/explorar" },
   { label: "Restaurantes", href: "/restaurantes" },
   { label: "Registrar Restaurante", href: "/registrar-restaurante" },
 ];
-
-const ICON_BUTTON =
-  "flex size-10 shrink-0 items-center justify-center rounded-full text-neutral transition-colors hover:bg-canvas-muted hover:text-primary focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:outline-none";
 
 function CartButton() {
   const { totalItems, openDrawer } = useCart();
@@ -31,7 +30,7 @@ function CartButton() {
       aria-label={`Abrir carrito, ${totalItems} ${
         totalItems === 1 ? "producto" : "productos"
       }`}
-      className={`relative ${ICON_BUTTON}`}
+      className={`relative ${iconButtonClass}`}
     >
       <ShoppingCart className="size-5" aria-hidden />
       {totalItems > 0 && (
@@ -84,7 +83,7 @@ export default function Header() {
             <Link
               href="/iniciar-sesion"
               aria-label="Iniciar sesión"
-              className={`${ICON_BUTTON} md:hidden`}
+              className={`${iconButtonClass} md:hidden`}
             >
               <User className="size-5" aria-hidden />
             </Link>
@@ -96,6 +95,8 @@ export default function Header() {
               />
             </div>
 
+            <NotificationsBell />
+
             <CartButton />
 
             <button
@@ -104,7 +105,7 @@ export default function Header() {
               aria-haspopup="menu"
               aria-expanded={isMenuOpen}
               aria-label="Abrir menú de navegación"
-              className={`${ICON_BUTTON} md:hidden`}
+              className={`${iconButtonClass} md:hidden`}
             >
               <Menu className="size-5" aria-hidden />
             </button>

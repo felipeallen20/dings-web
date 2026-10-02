@@ -4,14 +4,16 @@ import { useCallback, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { ChevronDown, LogOut, Settings, User } from "lucide-react";
+import { Bell, ChevronDown, LogOut, Settings, User } from "lucide-react";
 import { useClickOutside } from "@/hooks/useClickOutside";
 import { useSession } from "@/components/providers/SessionProvider";
+import { useNotifications } from "@/components/providers/NotificationProvider";
 import profileLogged from "@/assets/images/profile-logged.png";
 import userDefaultIcon from "@/assets/images/user-default-icon.webp";
 
 const MENU_ITEMS = [
   { label: "Mi perfil", href: "/perfil", icon: User },
+  { label: "Notificaciones", href: "/notificaciones", icon: Bell },
   { label: "Configuración", href: "/configuracion", icon: Settings },
 ];
 
@@ -25,6 +27,7 @@ export function UserMenu({ isLoggedIn = false, displayName }: UserMenuProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
   const { session, signOut } = useSession();
+  const { unreadCount } = useNotifications();
 
   const close = useCallback(() => setIsOpen(false), []);
   useClickOutside(containerRef, close, isOpen);
@@ -37,20 +40,12 @@ export function UserMenu({ isLoggedIn = false, displayName }: UserMenuProps) {
 
   if (!isLoggedIn) {
     return (
-      <div className="flex items-center gap-4">
-        <Link
-          href="/registrarse"
-          className="text-label-lg text-text-secondary transition-colors hover:text-primary"
-        >
-          Registrarse
-        </Link>
-        <Link
-          href="/iniciar-sesion"
-          className="rounded-lg bg-primary px-4 py-2 text-label-lg text-white transition-colors hover:bg-primary-hover focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:outline-none"
-        >
-          Iniciar Sesión
-        </Link>
-      </div>
+      <Link
+        href="/iniciar-sesion"
+        className="rounded-lg bg-primary px-4 py-2 text-label-lg text-white transition-colors hover:bg-primary-hover focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:outline-none"
+      >
+        Iniciar Sesión
+      </Link>
     );
   }
 
@@ -106,6 +101,12 @@ export function UserMenu({ isLoggedIn = false, displayName }: UserMenuProps) {
             >
               <Icon className="size-4 shrink-0 text-text-secondary" aria-hidden />
               {label}
+              {href === "/notificaciones" && unreadCount > 0 && (
+                <span
+                  className="ml-auto size-2 shrink-0 rounded-full bg-primary"
+                  aria-hidden
+                />
+              )}
             </Link>
           ))}
 

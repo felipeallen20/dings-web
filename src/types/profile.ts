@@ -1,14 +1,4 @@
-export interface Address {
-  id: string;
-  label: string;
-  line1: string;
-  line2?: string;
-  city: string;
-  zoneId?: string;
-  zoneName: string;
-  isDefault: boolean;
-  notes?: string;
-}
+export type { Address } from "@/types/address";
 
 export interface ProfilePreferences {
   orderUpdates: boolean;

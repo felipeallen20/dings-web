@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { BadgeCheck, CalendarDays, Camera, Package, Star } from "lucide-react";
 import type { Session } from "@/types/auth";
 import profileLogged from "@/assets/images/profile-logged.png";
@@ -76,9 +77,14 @@ export function ProfileIdentityCard({
 
       <dl className="grid w-full grid-cols-2 gap-2 border-t border-border pt-3 sm:pt-4">
         <div className="flex flex-col items-center gap-0.5">
-          <dt className="flex items-center gap-1 text-label-xs text-text-secondary uppercase">
-            <Package className="size-3" aria-hidden />
-            Pedidos
+          <dt className="text-label-xs text-text-secondary uppercase">
+            <Link
+              href="/pedidos"
+              className="inline-flex items-center gap-1 transition-colors hover:text-primary focus-visible:text-primary focus-visible:outline-none"
+            >
+              <Package className="size-3" aria-hidden />
+              Pedidos
+            </Link>
           </dt>
           <dd className="text-title-xs text-neutral tabular-nums sm:text-title-sm">
             {ordersCount}
